@@ -1,6 +1,6 @@
 #! /bin/sh
 if [ ! "$version" ];then
-version=$(repo=CoreELEC/CoreELEC; curl -s https://api.github.com/repos/$repo/releases/latest| grep "tag_name" | awk -v FS='"'  '{print $4 }')
+version=$(repo=CoreELEC/CoreELEC; curl -s https://api.github.com/repos/$repo/releases/latest| awk -v ORS='' -v FS='"'  '/"tag_name":/{print $4; exit }')
 fi
 if [ ! "$version" ];then
 version="20.1-Nexus"
