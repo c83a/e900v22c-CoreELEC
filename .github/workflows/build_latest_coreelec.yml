@@ -1,0 +1,25 @@
+name: Build Latest CoreELEC
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: install required packages
+        run: sudo apt update -y && sudo apt install -y make gcc git texinfo gzip squashfs-tools jq
+        
+      - name: building
+        run: sudo sh ./build.sh
+        
+      - uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          file: "*.gz;*.sha256"
+          draft: false
+          update_latest_release: true
+          
